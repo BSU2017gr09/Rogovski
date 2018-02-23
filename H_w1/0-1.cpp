@@ -1,4 +1,4 @@
-/*В массиве размера N, заполненного случ.числами от 0 до 10, подсчитать количество элементов, встречающихся более одного раза.*/
+/*Г‚ Г¬Г Г±Г±ГЁГўГҐ Г°Г Г§Г¬ГҐГ°Г  N, Г§Г ГЇГ®Г«Г­ГҐГ­Г­Г®ГЈГ® Г±Г«ГіГ·.Г·ГЁГ±Г«Г Г¬ГЁ Г®ГІ 0 Г¤Г® 10, ГЇГ®Г¤Г±Г·ГЁГІГ ГІГј ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў, ГўГ±ГІГ°ГҐГ·Г ГѕГ№ГЁГµГ±Гї ГЎГ®Г«ГҐГҐ Г®Г¤Г­Г®ГЈГ® Г°Г Г§Г .*/
 
 #include <iostream>
 #include <clocale>
@@ -22,15 +22,15 @@ int main() {
 		A = new int[N];
 	}
 	catch (...) {
-		cout << "Недостаточно памяти." << endl;
+		cout << "ГЌГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® ГЇГ Г¬ГїГІГЁ." << endl;
 		system("pause");
 		return 0;
 	}
-	cout << "Инициальзация массива:" ;
+	cout << "Г€Г­ГЁГ¶ГЁГ Г«ГјГ§Г Г¶ГЁГї Г¬Г Г±Г±ГЁГўГ :" ;
 	initArray(A, N);
 	printArray(A, N);
 	cout << endl;
-	cout << "Подсчет эллементов встречающихся более одного раза:";
+	cout << "ГЏГ®Г¤Г±Г·ГҐГІ ГЅГ«Г«ГҐГ¬ГҐГ­ГІГ®Гў ГўГ±ГІГ°ГҐГ·Г ГѕГ№ГЁГµГ±Гї ГЎГ®Г«ГҐГҐ Г®Г¤Г­Г®ГЈГ® Г°Г Г§Г :";
 	 cout << CountNumbSameEl(A, N) << endl;
 	delete[]A;
 	system("pause");
@@ -38,20 +38,20 @@ int main() {
 }
 
 void initArray(int *arr, int N) {
-	int *ptr_null = arr;	
+	int *ptr_null = arr;	// РЅСѓ Рё РёРјСЏ С‚С‹ РІС‹Р±СЂР°Р»!!!!
 	for (int i = 0; i < N; i++) {
 		*(ptr_null + i)= rand() % (MAX - MIN + 1) + MIN;
 	}
 }
 
 void printArray(int *arr, int N) {
-	for (int *end_ptr =arr+N; arr < end_ptr; arr++) {
+	for (int *end_ptr =arr+N; arr < end_ptr; arr++) {// Р° Р·Р°С‡РµРј РЅР°Рј РІРѕРѕР±С‰Рµ end_ptr????
 		cout << *arr << " ";
 	}
 }
 
 int CountNumbSameEl(int *arr, int N) {
-	int *ptr_null = arr;
+	int *ptr_null = arr;//С‡С‚Рѕ Р·Р° РёРјСЏ??????
 	int counter = 0;
 	int numb = 0;
 	for (int i = 0; i < N; i++) {
