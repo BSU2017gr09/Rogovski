@@ -53,7 +53,7 @@ void printArray(int *arr, int N) {
 
 void ShiftToRight(int *arr, int N, int k) {
 	int* ptr_end = arr + N-1;
-	for (int *ptr_null = arr; ptr_null < arr + N/2; ptr_null++) {//Этот код видел у Шаталова!!!
+	for (int *ptr_null = arr; ptr_null < arr + N/2; ptr_null++) {//Этот код лучше в ReverseArray
 		swap(ptr_null, ptr_end);
 		ptr_end--;
 	}
