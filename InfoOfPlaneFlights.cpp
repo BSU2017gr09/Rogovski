@@ -11,17 +11,34 @@ c) Распечатать по заявке пассажира билет, ес�
 в указанный пункт.*/
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <cstdio>
 #include <clocale>
 #include <ctime>
+#include<fstream>
 
 using namespace std;
 
 int num = 1;
 
-void RandCity(char dest[], int n) {
-	int k = 0 + rand() % 5;
-	const char points[] = "Minsk|Moskow|London|Paris|New_York|Berlin";
+char f1[] = "D:\\cityes.txt";
+
+char symb;
+
+void RandCity(char dest[], const int n) {
+	const int t = 100;
+	char points[t];
 	int i = 0;
+	ifstream fin(f1, ios::in, ios::binary);
+	if (!fin) cout << "No file" << endl;
+	while (1) {
+		fin.get(symb);
+		points[i++] = symb;
+		if (fin.eof())break;
+	}
+	points[i - 1] = 0;
+	fin.close();
+	int k = 0 + rand() % 5;
+	i = 0;
 	while (points[i] && k>0) {
 		if (points[i] == '|') {
 			k--;
@@ -75,6 +92,17 @@ public:
 	}
 	~InfoOfPlaneFlights() {
 	};
+	void my_swap(const InfoOfPlaneFlights &other) {
+		std::swap(flight_num, other.flight_num);
+		std::swap(spare_seats, other.spare_seats);
+		std::swap(dest_point, other.dest_point);
+	}
+
+	InfoOfPlaneFlights& operator = (const InfoOfPlaneFlights &p) {
+		InfoOfPlaneFlights tmp(p);
+		my_swap(tmp);
+		return *this;
+
 	void operator=(const InfoOfPlaneFlights &other){
 		flight_num = other.flight_num;
 		delete[]dest_point;
@@ -183,12 +211,12 @@ int printFlyght(InfoOfPlaneFlights *flyghts, int k) {
 int chooseFlight(InfoOfPlaneFlights *flyghts, int n) {
 	char str[10];
 	cout << "Введите название города:" << endl;
-	cin >> str;
+	cin.getline(str, 20);
 	int t = 0;
 	for (int k = 0; k < 6; k++) {
 		int tmp = strcmp(flyghts[k].getDestpoint(), str);
 		if (tmp==0) {
-			cout << "Рейсы до " << str << ":" << endl;
+			cout << "Рейсы до " << s << ":" << endl;
 			cout << flyghts[k] << endl;
 			t++;
 		}
