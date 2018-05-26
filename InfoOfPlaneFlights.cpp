@@ -67,9 +67,10 @@ public:
 	InfoOfPlaneFlights():flight_num(0),dest_point(nullptr),spare_seats(0){
 	//	cout << "Сработал конструктор по умолчанию" << endl;
 	};
-	InfoOfPlaneFlights(int argFlyght_num, char* argDest_point, int argSpare_sears):flight_num(argFlyght_num),dest_point(nullptr),spare_seats(argSpare_sears){
+	InfoOfPlaneFlights(int argFlyght_num, char* argDest_point, int argSpare_sears):
+		flight_num(argFlyght_num),dest_point(nullptr),spare_seats(argSpare_sears){
 		try {
-			dest_point = new char[strlen(argDest_point)];
+			dest_point = new char[strlen(argDest_point)+1];
 			strcpy(dest_point, argDest_point);
 		}
 		catch (...) {
@@ -81,7 +82,7 @@ public:
 	InfoOfPlaneFlights(const InfoOfPlaneFlights &other) {
 		flight_num = other.flight_num;
 		try {
-			dest_point = new char[strlen(other.dest_point)];
+			dest_point = new char[strlen(other.dest_point)+1];
 			strcpy(dest_point, other.dest_point);
 		}
 		catch (...) {
@@ -92,38 +93,30 @@ public:
 	}
 	~InfoOfPlaneFlights() {
 	};
-	void my_swap(const InfoOfPlaneFlights &other) {
+	void my_swap( InfoOfPlaneFlights &other) {
 		std::swap(flight_num, other.flight_num);
 		std::swap(spare_seats, other.spare_seats);
 		std::swap(dest_point, other.dest_point);
 	}
-
 	InfoOfPlaneFlights& operator = (const InfoOfPlaneFlights &p) {
 		InfoOfPlaneFlights tmp(p);
 		my_swap(tmp);
 		return *this;
-
-	void operator=(const InfoOfPlaneFlights &other){
-		flight_num = other.flight_num;
-		delete[]dest_point;
-		try {
-			dest_point = new char[strlen(other.dest_point)+1];
-			strcpy(dest_point, other.dest_point);
-		}
-		catch (...) {
-			cout << "..." << endl;
-			exit(0);
-		}
+	};
+	InfoOfPlaneFlights& operator=(InfoOfPlaneFlights &&other){
+		if (this == &other) return *this;
 		spare_seats = other.spare_seats;
+		flight_num = other.flight_num;
+			return *this;
 	};
 	int setFlightnum(int argFlightnum) {
 		flight_num = argFlightnum;
-		return 0;
+		return argFlightnum;
 	};
 	int setDestpoint(char *argDestpoint) {
 		if (dest_point == nullptr) {
 			try {
-				dest_point = new char[strlen(argDestpoint)];
+				dest_point = new char[strlen(argDestpoint)+1];
 				strcpy(dest_point, argDestpoint);
 			}
 			catch (...) {
@@ -134,11 +127,11 @@ public:
 		else {
 			delete[]dest_point;
 			try {
-				dest_point = new char[strlen(argDestpoint)];
+				dest_point = new char[strlen(argDestpoint)+1];
 				strcpy(dest_point, argDestpoint);
 			}
 			catch (...) {
-				cout << "..." << endl;
+				cout << "No memory..." << endl;
 				exit(0);
 			}
 		}
@@ -210,13 +203,15 @@ int printFlyght(InfoOfPlaneFlights *flyghts, int k) {
 
 int chooseFlight(InfoOfPlaneFlights *flyghts, int n) {
 	char str[10];
+	int i = 0;
 	cout << "Введите название города:" << endl;
-	cin.getline(str, 20);
+	cin >> str;
 	int t = 0;
-	for (int k = 0; k < 6; k++) {
+	fflush(stdin);
+	for (int k = 0; k < n; k++) {
 		int tmp = strcmp(flyghts[k].getDestpoint(), str);
 		if (tmp==0) {
-			cout << "Рейсы до " << s << ":" << endl;
+			cout << "Рейсы до " << str << ":" << endl;
 			cout << flyghts[k] << endl;
 			t++;
 		}
@@ -247,12 +242,40 @@ int printTickets(InfoOfPlaneFlights *flyghts, int k) {
 	return 0;
 }
 
-int DestPointList(InfoOfPlaneFlights *, int) {
-	cout << "Minsk | Moskow | London | Paris | New_York | Berlin" << endl;
+int DestPointList(InfoOfPlaneFlights *flyghts, int n) {
+	for (int k = 0; k < n; k++) {
+		int t = 1;
+		for (int i = 0; i < n; i++) {
+			int tmp = strcmp(flyghts[k].getDestpoint(), flyghts[i].getDestpoint());
+			if (tmp == 0 && k!=i) t=0;
+			break;
+		}
+		if (t==1)	cout << flyghts[k].getDestpoint() << " ";
+	}
+	cout << endl;
 	return 0;
 }
 
-int exit(InfoOfPlaneFlights *r, int a) {
+int EditFlight(InfoOfPlaneFlights *flyghts, int n) {
+	cout << "Введите номер рейса, который вы хотите отредактировать." << endl;
+	int k=0;
+	int i = 0;
+	char city[10];
+	cin >> k;
+	cout << "Введите название города" << endl;
+	cin >> city;
+	fflush(stdin);
+	flyghts[k].setDestpoint(city);
+	cout << "Введите количество свободных мест"<< endl;
+	cin >> i;
+	flyghts[k].setSeats(i);
+	cout << "Введите новый номер рейса" << endl;
+	cin >> i;
+	flyghts[k].setFlightnum(i);
+	return 0;
+}
+
+int my_exit(InfoOfPlaneFlights *r, int a) {
 	exit(1);
 	return 0;
 }
@@ -268,15 +291,15 @@ void ForEach(InfoOfPlaneFlights *arr, int N, ptr_func ff) {
 int main() {
 	setlocale(LC_ALL, "Ru");
 	srand(time(0));
-	const int n = 10;
+	const int n = 4;
 	InfoOfPlaneFlights flyghts[n];
 	int k = 0;
-	func *Menu[7] = {initFlyghts,printFlyghts,chooseFlight,printFlyght,printTickets,DestPointList,exit};
+	func *Menu[8] = {initFlyghts,printFlyghts,chooseFlight,printFlyght,printTickets,DestPointList,EditFlight,my_exit};
 	while (1) {
 		cout << "===========================================================================================================" << endl;
 		cout << "Выберите операцию:" << endl << "0-проинициализировать рейсы." << endl << "1-распечатать список рейсов." << endl;
 		cout << "2-распечатать информацию о рейсах по указанному месту." << endl<<"3 - информация о определенном рейсе"<<endl<<"4 - информация о билетах" << endl;
-		cout << "5-список городов в которые идут рейсы" <<endl<<"6-Выход"<<endl;
+		cout << "5-список городов в которые идут рейсы" <<endl<<"6-Редактировать полет"<<endl<<"7-Bыход"<< endl;
 		cin >> k;
 		if (k < 0 || k>6) {
 			cout << "Введите операцию заново." << endl;
