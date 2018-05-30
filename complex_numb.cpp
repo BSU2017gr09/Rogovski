@@ -46,7 +46,7 @@ public:
 int	main(){
 	setlocale(LC_ALL, "Ru");
 	Complex z1;
-	Complex z2;
+	Complex z2;//тут бы еще массивчик. И его проинициализировать, отсортировать и еще что то...
 	cin >> z1;
 	cin >> z2;
 	cout << z1 + z2;
