@@ -25,20 +25,21 @@ int** giveMemory(int N, int M) {
 void FindPosMinOfArrAndMultij(int **A, int N, int M) {
 	int p1 = 0, p2 = 0;
 	for (int i = 0; i < N; i++) {
-		int k = 0;
-		int min = 10;
+		//int k = 0;
+		p1 = 0, p2 = 0;
+		int min = A[i][0];//10;
 		for (int j = 0; j < M; j++) {
 			if (A[i][j] >= 0 ) {
 				if (A[i][j] < min) {
 					min = A[i][j];
 					p1 = i; p2 = j;
 				}
-				k++;
+				//k++;
 			}
 		}
-		if (k == M) {
+		//if (k == M) {
 		A[p1][p2] = p1*p2;
-		}
+		//}
 	}
 	cout << "Преобразование выполнено." << endl;
 }
