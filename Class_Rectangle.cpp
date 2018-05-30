@@ -7,8 +7,8 @@ class Rectangle{
 private:
 	int x1,y1;
 	int x2,y2;
-	int x3 = x1, y3 = y2;
-	int x4 = x2, y4 = y1;
+//	int x3 = x1, y3 = y2;
+//	int x4 = x2, y4 = y1;
 public:
 	Rectangle() :x1(0), y1(0),x2(0),y2(0) { //cout << "Работает конструктор по умолчанию" << endl;
 	};
@@ -29,7 +29,7 @@ public:
 	int Rectangle::height(void) {
 		return (abs(y1 - y2));
 	}
-	int Square(int &a, int &b) {
+	int Square(int &a, int &b) { // имя плохое. Лучше. Area
 		return a*b;
 	}
 	int Perimetr(int &a, int &b) {
@@ -53,7 +53,7 @@ public:
 		tmp.y2 = abs(this->y2 - other.y2);
 		return tmp;
 	}
-	Rectangle operator*(const Rectangle &other) {
+	Rectangle operator*(const Rectangle &other) { // неудачно придумано. Лучше Rectangle operator*(const double N) 
 		Rectangle tmp;
 		tmp.x1 = this->x1 * other.x1;
 		tmp.y1 = this->y1 * other.y1;
@@ -92,7 +92,7 @@ int main() {
 	setlocale(LC_ALL, "Ru");
 	Rectangle rec1;
 	Rectangle rec2;
-	Rectangle rec3;
+	Rectangle rec3; // массивчик бы.....
 	int a1 = 0,b1=0;
 	cin >> rec1;
 	a1 = rec1.length();
