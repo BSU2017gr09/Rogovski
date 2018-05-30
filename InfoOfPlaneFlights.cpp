@@ -33,6 +33,7 @@ void RandCity(char dest[], const int n) {
 	while (1) {
 		fin.get(symb);
 		points[i++] = symb;
+		if (points[i] == '|') strcpy(dest, point);
 		if (fin.eof())break;
 	}
 	points[i - 1] = 0;
@@ -74,7 +75,7 @@ public:
 			strcpy(dest_point, argDest_point);
 		}
 		catch (...) {
-			cout << "..." << endl;
+			cout << "Not enought memory..." << endl;
 			system("pause");
 		}
 	//	cout << "сработал конструктор с параметрами"<<endl;
@@ -86,12 +87,12 @@ public:
 			strcpy(dest_point, other.dest_point);
 		}
 		catch (...) {
-			cout << "..." << endl;
+			cout << "Not enought memory..." << endl;
 			exit(0);
 		}
 		spare_seats = other.spare_seats;
 	}
-	~InfoOfPlaneFlights() {
+	~InfoOfPlaneFlights() {//где delete[] dest_point;
 	};
 	void my_swap( InfoOfPlaneFlights &other) {
 		std::swap(flight_num, other.flight_num);
@@ -107,6 +108,8 @@ public:
 		if (this == &other) return *this;
 		spare_seats = other.spare_seats;
 		flight_num = other.flight_num;
+		// dest_point=?????????
+		//надо было my_swap(other);
 			return *this;
 	};
 	int setFlightnum(int argFlightnum) {
